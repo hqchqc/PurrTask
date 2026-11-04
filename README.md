@@ -58,9 +58,22 @@ pnpm tauri build
 pnpm build
 ```
 
+## 🤖 GitHub Actions 自动打包
+
+推送代码、提交 Pull Request，或在 GitHub Actions 页面手动运行 **Build desktop packages**，会分别构建：
+
+- `purr-task-windows-x64`：Windows x64 MSI 安装包
+- `purr-task-kylin-v10-arm64-deb`：Linux ARM64（aarch64）`.deb` 安装包
+
+构建完成后，可在对应 Actions 运行页面的 **Artifacts** 区域下载产物。Linux 包由 Ubuntu 22.04 ARM64 runner 原生构建，并检查 Debian 包架构为 `arm64`；麒麟 V10 的具体发行版环境可能有所差异，部署前请在目标设备上确认 GTK、WebKitGTK 等运行依赖可用。
+
 ## 🗂️ 项目结构
 
 ```text
+.github/
+└── workflows/
+    └── build.yml     # Windows 与 Linux ARM64 自动打包
+
 src/
 ├── components/     # 页面与通用 UI 组件
 ├── constants/      # 应用常量
