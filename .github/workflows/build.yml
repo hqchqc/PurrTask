@@ -54,7 +54,7 @@ jobs:
           retention-days: 14
 
   linux-arm64:
-    name: Linux ARM64 DEB
+    name: Linux ARM64 AppImage
     runs-on: ubuntu-22.04-arm
     steps:
       - name: Check out source
@@ -99,19 +99,20 @@ jobs:
       - name: Install frontend dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build ARM64 DEB
-        run: pnpm tauri build --bundles deb
+      - name: Build ARM64 AppImage
+        run: pnpm tauri build --bundles appimage
 
-      - name: Verify Debian package architecture
+      - name: Verify ARM64 AppImage
         run: |
-          deb="$(find src-tauri/target/release/bundle/deb -maxdepth 1 -name '*.deb' -print -quit)"
-          test -n "$deb"
-          dpkg-deb --field "$deb" Architecture | grep -Fx arm64
+          appimage="$(find src-tauri/target/release/bundle/appimage -maxdepth 1 -name '*.AppImage' -print -quit)"
+          test -n "$appimage"
+          test -x "$appimage"
+          file "$appimage" | grep -E 'ARM aarch64|ARM64'
 
       - name: Upload Linux ARM64 package
         uses: actions/upload-artifact@v4
         with:
-          name: purr-task-kylin-v10-arm64-deb
-          path: src-tauri/target/release/bundle/deb/*.deb
+          name: purr-task-kylin-v10-arm64-appimage
+          path: src-tauri/target/release/bundle/appimage/*.AppImage
           if-no-files-found: error
           retention-days: 14

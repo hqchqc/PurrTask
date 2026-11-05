@@ -63,9 +63,9 @@ pnpm build
 推送代码、提交 Pull Request，或在 GitHub Actions 页面手动运行 **Build desktop packages**，会分别构建：
 
 - `purr-task-windows-x64`：Windows x64 MSI 安装包
-- `purr-task-kylin-v10-arm64-deb`：Linux ARM64（aarch64）`.deb` 安装包
+- `purr-task-kylin-v10-arm64-appimage`：Linux ARM64（aarch64）AppImage
 
-构建完成后，可在对应 Actions 运行页面的 **Artifacts** 区域下载产物。Linux 包由 Ubuntu 22.04 ARM64 runner 原生构建，并检查 Debian 包架构为 `arm64`；麒麟 V10 的具体发行版环境可能有所差异，部署前请在目标设备上确认 GTK、WebKitGTK 等运行依赖可用。
+构建完成后，可在对应 Actions 运行页面的 **Artifacts** 区域下载产物。Linux AppImage 由 Ubuntu 22.04 ARM64 runner 原生构建并检查其架构。AppImage 可绕过 `.deb` 安装时的包管理器依赖检查，但 Tauri 2 仍需要系统提供 WebKitGTK 4.1（`libwebkit2gtk-4.1-0`）等运行库；如果麒麟 V10 环境没有这些库，AppImage 也可能无法启动。请在目标设备上验证运行依赖。
 
 ## 🗂️ 项目结构
 
